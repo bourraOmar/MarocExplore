@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\itinerary;
+use App\Models\Itineraire;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ class DestinationController extends Controller
 {
     public function store(Request $request, $itineraryId)
     {
-        $itinerary = itinerary::where('user_id', Auth::id())->find($itineraryId);
+        $itinerary = Itineraire::where('user_id', Auth::id())->find($itineraryId);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
