@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\itinerary;
+use App\Models\Destination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DestinationController extends Controller
 {
@@ -19,5 +22,17 @@ class DestinationController extends Controller
         $destination = $itinerary->destinations()->create($validated);
 
         return response()->json($destination, 201);
+    }
+
+    public function destroy($id)
+    {
+        $destination = Destination::find($id);
+        if ($destination->itinerary->user_id !== Auth::id()) {
+            return response()->json(['message' => "Unauthorized"], 403);
+        }
+
+        $destination->delete();
+
+        return response()->json(['message' => 'Destination deleted']);
     }
 }
